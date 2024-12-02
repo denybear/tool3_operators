@@ -6,16 +6,16 @@ using T3.Core.Operator.Interfaces;
 using ManagedBass;
 
 
-namespace T3.Operators.Types.Id_67d695fe_bdfd_48ba_b091_3a427d687a41
+namespace T3.Operators.Types.Id_85a3bef9_6e33_44ec_864f_8046537c89ab
 {
-    public class PlayAudioFile : Instance<PlayAudioFile>, IStatusProvider
+    public class ArmAudioFile : Instance<ArmAudioFile>, IStatusProvider
     {
         // result = true in case "is playing" is true, and audio file is finished: ie. "play is finished"
-        [Output(Guid = "4782802f-39bf-47bf-9598-6a7be88fefab", DirtyFlagTrigger = DirtyFlagTrigger.None)]
+        [Output(Guid = "1bbeb6c9-d69a-48c8-b1c3-607d32c8ed52", DirtyFlagTrigger = DirtyFlagTrigger.None)]
         public readonly Slot<bool> Result = new();
         
         
-        public PlayAudioFile()
+        public ArmAudioFile()
         {
             Result.UpdateAction = Update;
         }
@@ -99,16 +99,16 @@ namespace T3.Operators.Types.Id_67d695fe_bdfd_48ba_b091_3a427d687a41
         private string _errorMessageForStatus;
 
         
-        [Input(Guid = "52e826b9-9ff5-4858-9420-365358b5b028")]
+        [Input(Guid = "5192e146-dee5-4278-9fe2-62c724fe3d5a")]
         public readonly InputSlot<string> Path = new();
 
-        [Input(Guid = "fb38a142-0341-4509-809a-5a6e7332071f")]
+        [Input(Guid = "9629e7e9-00d4-43a9-8078-96f91e0f9536")]
         public readonly InputSlot<float> Volume = new();
         
-        [Input(Guid = "80182a35-2762-46f2-b683-36a0e696037c")]
+        [Input(Guid = "15585cf2-e5cb-43d8-869e-ec981caa8a76")]
         public readonly InputSlot<bool> IsPlaying = new();
         
-        [Input(Guid = "23463284-526f-4e1b-a851-1e6893a58611")]
+        [Input(Guid = "8c326c6f-6f93-469f-b2c3-315873b81bc4")]
         public readonly InputSlot<bool> IsLooping = new();
     }
 }

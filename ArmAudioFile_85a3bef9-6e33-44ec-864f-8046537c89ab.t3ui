@@ -1,0 +1,49 @@
+{
+  "Id": "85a3bef9-6e33-44ec-864f-8046537c89ab"/*ArmAudioFile*/,
+  "Description": "This a work around to playback audio files without syncing or timebase.",
+  "InputUis": [
+    {
+      "InputId": "5192e146-dee5-4278-9fe2-62c724fe3d5a"/*Path*/,
+      "Position": {
+        "X": 51.512096,
+        "Y": 46.995968
+      },
+      "Usage": "FilePath",
+      "FileFilter": "All Files|*.*|Audio files (mp3,wav,ogg)|*.mp3;*.wav;*.ogg"
+    },
+    {
+      "InputId": "9629e7e9-00d4-43a9-8078-96f91e0f9536"/*Volume*/,
+      "Position": {
+        "X": 51.512096,
+        "Y": 91.99597
+      },
+      "Min": 0.0,
+      "Max": 1.0,
+      "Clamp": true
+    },
+    {
+      "InputId": "15585cf2-e5cb-43d8-869e-ec981caa8a76"/*IsPlaying*/,
+      "Position": {
+        "X": 51.512096,
+        "Y": 136.99597
+      }
+    },
+    {
+      "InputId": "8c326c6f-6f93-469f-b2c3-315873b81bc4"/*IsLooping*/,
+      "Position": {
+        "X": 51.512096,
+        "Y": 181.99597
+      }
+    }
+  ],
+  "SymbolChildUis": [],
+  "OutputUis": [
+    {
+      "OutputId": "1bbeb6c9-d69a-48c8-b1c3-607d32c8ed52"/*Result*/,
+      "Position": {
+        "X": 0.0,
+        "Y": 400.0
+      }
+    }
+  ]
+}
