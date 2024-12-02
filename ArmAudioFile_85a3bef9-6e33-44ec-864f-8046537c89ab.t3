@@ -1,25 +1,37 @@
 {
-  "Name": "PlayAudioFile",
+  "Name": "ArmAudioFile",
   "Id": "85a3bef9-6e33-44ec-864f-8046537c89ab",
-  "Namespace": "lib.img.video",
-  "Inputs": [
-    {
-      "Id": "5192e146-dee5-4278-9fe2-62c724fe3d5a"/*Path*/,
-      "DefaultValue": "Resources\\common\\test-footage\\test-720p.mp4"
-    },
-    {
-      "Id": "9629e7e9-00d4-43a9-8078-96f91e0f9536"/*Volume*/,
-      "DefaultValue": 1.0
-    },
-    {
-      "Id": "15585cf2-e5cb-43d8-869e-ec981caa8a76"/*IsPlaying*/,
-      "DefaultValue": false
-    },
-    {
-      "Id": "8c326c6f-6f93-469f-b2c3-315873b81bc4"/*IsLooping*/,
-      "DefaultValue": false
-    }
-  ],
+  "Namespace": "user.denis",
+    "Inputs": [
+        {
+            "Id": "5192e146-dee5-4278-9fe2-62c724fe3d5a" /*Path*/,
+            "DefaultValue": "Resources\\common\\test-footage\\test-720p.mp4"
+        },
+        {
+            "Id": "9629e7e9-00d4-43a9-8078-96f91e0f9536" /*NeutralPadColor*/,
+            "DefaultValue": 0
+        },
+        {
+            "Id": "72d8c2c8-99fb-4e5a-a7b5-a4d664afb879" /*ArmedPadColor*/,
+            "DefaultValue": 0
+        },
+        {
+            "Id": "2636fcb6-4ffb-4d14-8d80-9c93f1db365a" /*PlayingPadColor*/,
+            "DefaultValue": 0
+        },
+        {
+            "Id": "15585cf2-e5cb-43d8-869e-ec981caa8a76" /*PadNumber*/,
+            "DefaultValue": 0
+        },
+        {
+            "Id": "8c326c6f-6f93-469f-b2c3-315873b81bc4" /*IsPadPressed*/,
+            "DefaultValue": false
+        },
+        {
+            "Id": "4a2787ad-6bef-42c3-8156-a22551f61033" /*IsPlayFinished*/,
+            "DefaultValue": false
+        }
+    ],
   "Children": [],
   "Connections": []
 }

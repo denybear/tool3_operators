@@ -10,7 +10,7 @@ namespace T3.Operators.Types.Id_85a3bef9_6e33_44ec_864f_8046537c89ab
 {
     public class ArmAudioFile : Instance<ArmAudioFile>, IStatusProvider
     {
-        // result = true in case "is playing" is true, and audio file is finished: ie. "play is finished"
+        // result = 
         [Output(Guid = "1bbeb6c9-d69a-48c8-b1c3-607d32c8ed52", DirtyFlagTrigger = DirtyFlagTrigger.None)]
         public readonly Slot<bool> Result = new();
         
@@ -86,6 +86,7 @@ namespace T3.Operators.Types.Id_85a3bef9_6e33_44ec_864f_8046537c89ab
 		private bool _wasPlayingPreviously = false;
 		private int _stream = 0;
 
+
         IStatusProvider.StatusLevel IStatusProvider.GetStatusLevel()
         {
             return string.IsNullOrEmpty(_errorMessageForStatus) ? IStatusProvider.StatusLevel.Success : IStatusProvider.StatusLevel.Error;
@@ -103,12 +104,21 @@ namespace T3.Operators.Types.Id_85a3bef9_6e33_44ec_864f_8046537c89ab
         public readonly InputSlot<string> Path = new();
 
         [Input(Guid = "9629e7e9-00d4-43a9-8078-96f91e0f9536")]
-        public readonly InputSlot<float> Volume = new();
-        
+        public readonly InputSlot<int> NeutralPadColor = new();
+
+        [Input(Guid = "72d8c2c8-99fb-4e5a-a7b5-a4d664afb879")]
+        public readonly InputSlot<int> ArmedPadColor = new();
+
+        [Input(Guid = "2636fcb6-4ffb-4d14-8d80-9c93f1db365a")]
+        public readonly InputSlot<int> PlayingPadColor = new();
+
         [Input(Guid = "15585cf2-e5cb-43d8-869e-ec981caa8a76")]
-        public readonly InputSlot<bool> IsPlaying = new();
+        public readonly InputSlot<int> PadNumber = new();
         
         [Input(Guid = "8c326c6f-6f93-469f-b2c3-315873b81bc4")]
-        public readonly InputSlot<bool> IsLooping = new();
+        public readonly InputSlot<bool> IsPadPressed = new();
+
+        [Input(Guid = "4a2787ad-6bef-42c3-8156-a22551f61033")]
+        public readonly InputSlot<bool> IsPlayFinished = new();
     }
 }
