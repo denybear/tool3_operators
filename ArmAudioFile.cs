@@ -1,91 +1,124 @@
-using System.IO;
+using System.IO;4c476766-c0f6-4dd5-ba8c-2d1021781a4c
 using T3.Core.Operator;
 using T3.Core.Operator.Attributes;
 using T3.Core.Operator.Slots;
 using T3.Core.Operator.Interfaces;
-using ManagedBass;
+using NAudio.Midi;
+
+
+// pad colors for Novation Launchpad mini (old version)
+#define BLACK	0x0C
+#define RED		0x0F
+#define AMBER	0x3F
+#define GREEN	0x3C
+#define ORANGE	0x2F
+#define YELLOW	0x3E
 
 
 namespace T3.Operators.Types.Id_85a3bef9_6e33_44ec_864f_8046537c89ab
 {
-    public class ArmAudioFile : Instance<ArmAudioFile>, IStatusProvider
+    public class ArmAudioFile : Instance<ArmAudioFile>, IStatusProvider, MidiConnectionManager.IMidiConsumer
     {
         // result = 
-        [Output(Guid = "1bbeb6c9-d69a-48c8-b1c3-607d32c8ed52", DirtyFlagTrigger = DirtyFlagTrigger.None)]
-        public readonly Slot<bool> Result = new();
+        [Output(Guid = "1bbeb6c9-d69a-48c8-b1c3-607d32c8ed52")]
+        public readonly Slot<bool> Play = new();
         
         
         public ArmAudioFile()
         {
-            Result.UpdateAction = Update;
+            Play.UpdateAction = Update;
         }
+
+
+        protected override void Dispose(bool isDisposing)
+        {
+            if(!isDisposing) return;
+
+            if (_initialized)
+            {
+                MidiConnectionManager.UnregisterConsumer(this);
+            }
+        }
+
+
+        private void SendNoteOn(string deviceName, int channel, int note, int velocity)
+        {
+            var foundDevice = false;
+
+            if(!_initialized)
+            {
+                MidiConnectionManager.RegisterConsumer(this);
+                _initialized = true;
+            }          
+            
+            foreach (var (m, device) in MidiConnectionManager.MidiOutsWithDevices)
+            {
+                if (device.ProductName != deviceName)
+                    continue;
+                
+                try
+                {
+                    MidiEvent midiEvent = null;
+                    midiEvent = new NoteEvent(0, channel, MidiCommandCode.NoteOn, note, velocity);	// note on
+
+                    if(midiEvent != null)
+                        m.Send(midiEvent.GetAsShortMessage());
+                    
+                    //Log.Debug("Sending MidiTo " + device.Manufacturer + " " + device.ProductName, this);
+                    foundDevice = true;
+                    break;
+                }
+                catch (Exception e)
+                {
+                    _lastErrorMessage = $"Failed to send midi to {deviceName}: " + e.Message;
+                    Log.Warning(_lastErrorMessage, this);
+                }
+                
+            }
+            _lastErrorMessage = !foundDevice ? $"Can't find MidiDevice {deviceName}" : null;
+        }
+      
+
             
         private void Update(EvaluationContext context)
         {
             var url = Path.GetValue(context);
-			var isPlaying = IsPlaying.GetValue(context);
-			var volume = Volume.GetValue(context);
+			var isPadPressed = IsPadPressed.GetValue(context);
+			var isPlayFinished = IsPlayFinished.GetValue(context);
+			var padNumber = PadNumber.GetValue(context);
+            var deviceName = Device.GetValue(context);
 
-            // set result output value
-            Result.Value = false;
-
-			// make sure volume is in boundaries
-			if (volume < 0.0f) volume = 0.0f;
-			if (volume > 1.0f) volume = 1.0f;
-			
-			// play is triggered: create stream, play file
-			if (isPlaying && !_wasPlayingPreviously)
+			// initial setup
+			if (_isFirstTimeRun)
 			{
-                if(!File.Exists(url))
-                {
-                    _errorMessageForStatus = $"File not found: {url}";
-                    return;
-                }
+				// midi send set neutral color to all pads
+				_isFirstTimeRun = false;
+				Play.Value = false;
+			}
 
-				if ((!Bass.Init()) && (Bass.LastError != Errors.Already))
-                {
-                    _errorMessageForStatus = "Cannot create Bass instance";
-                    return;
-				}
-
-				_stream = Bass.CreateStream(url);
-				if (_stream == 0)
+			// in case song should be playing: pad is pressed, pad was armed previously, song was not playing before
+			if (isPadPressed && (padNumber == _previousPadNumber) && !Play.Value)	// need to add: && !isPlayFinished ???
+			{
+				// display the name of the playing song in the console
+				// midi send set play color to pressed pad				
+				_previousPadNumber = padNumber;
+				Play.Value = true;
+			}
+			// all other cases
+			else
+			{
+				if (isPadPressed || isPlayFinished)
 				{
-                    _errorMessageForStatus = "Cannot create Bass audio stream";
-					return;
+					// display the name of the armed song in the console
+					// midi send set neutral color to previously pressed pad
+					if (_previousPadNumber != -1) {}
+					// midi send set armed color to pressed pad
+					_previousPadNumber = padNumber;
+					Play.Value = false;				
 				}
-
-				Bass.ChannelPlay(_stream);
 			}
-
-			// play is in progress: adjust volume, loop in case required
-			if (isPlaying)
-			{
-                Bass.ChannelSetAttribute(_stream, ChannelAttribute.Volume, volume);
-
-                // check if play is finished
-				Bass.ChannelSetSync(_stream, SyncFlags.End, 0, (handle, channel, data, user) =>
-				{
-                    if (IsLooping.GetValue(context)) Bass.ChannelPlay(_stream);
-                    else Result.Value = true;
-                });
-			}
-			
-			// stop playing
-			if (!isPlaying && _wasPlayingPreviously)
-			{
-				Bass.ChannelStop(_stream);
-				Bass.Free();
-			}
-			
-			// update playing state
-			_wasPlayingPreviously = isPlaying;
-		}
+		}	
 		
-		
-		private bool _wasPlayingPreviously = false;
-		private int _stream = 0;
-
 
         IStatusProvider.StatusLevel IStatusProvider.GetStatusLevel()
         {
@@ -96,13 +129,28 @@ namespace T3.Operators.Types.Id_85a3bef9_6e33_44ec_864f_8046537c89ab
         {
             return _errorMessageForStatus;
         }
+
         
+        private bool _initialized = false;
+		private bool _isFirstTimeRun = true;
+		private int _previousPadNumber = -1;
         private string _errorMessageForStatus;
+
+
+
+        // We don't actually receive midi in this operator, those methods can remain empty, we just want the MIDI connection thread up
+        public void MessageReceivedHandler(object sender, MidiInMessageEventArgs msg) {}
+
+        public void ErrorReceivedHandler(object sender, MidiInMessageEventArgs msg) {}
+
+        public void OnSettingsChanged() {}
 
         
         [Input(Guid = "5192e146-dee5-4278-9fe2-62c724fe3d5a")]
         public readonly InputSlot<string> Path = new();
 
+
+// replace with device and channel number
         [Input(Guid = "9629e7e9-00d4-43a9-8078-96f91e0f9536")]
         public readonly InputSlot<int> NeutralPadColor = new();
 
@@ -111,6 +159,8 @@ namespace T3.Operators.Types.Id_85a3bef9_6e33_44ec_864f_8046537c89ab
 
         [Input(Guid = "2636fcb6-4ffb-4d14-8d80-9c93f1db365a")]
         public readonly InputSlot<int> PlayingPadColor = new();
+
+
 
         [Input(Guid = "15585cf2-e5cb-43d8-869e-ec981caa8a76")]
         public readonly InputSlot<int> PadNumber = new();

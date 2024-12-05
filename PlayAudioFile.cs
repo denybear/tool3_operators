@@ -10,14 +10,14 @@ namespace T3.Operators.Types.Id_67d695fe_bdfd_48ba_b091_3a427d687a41
 {
     public class PlayAudioFile : Instance<PlayAudioFile>, IStatusProvider
     {
-        // result = true in case "is playing" is true, and audio file is finished: ie. "play is finished"
-        [Output(Guid = "4782802f-39bf-47bf-9598-6a7be88fefab", DirtyFlagTrigger = DirtyFlagTrigger.None)]
-        public readonly Slot<bool> Result = new();
+        // endoffile = true in case "is playing" is true, and audio file is finished: ie. "play is finished"
+        [Output(Guid = "4782802f-39bf-47bf-9598-6a7be88fefab")]
+        public readonly Slot<bool> EndOfFile = new();
         
         
         public PlayAudioFile()
         {
-            Result.UpdateAction = Update;
+            EndOfFile.UpdateAction = Update;
         }
             
         private void Update(EvaluationContext context)
@@ -27,9 +27,9 @@ namespace T3.Operators.Types.Id_67d695fe_bdfd_48ba_b091_3a427d687a41
 			var volume = Volume.GetValue(context);
 
             // set result output value
-            Result.Value = false;
+            EndOfFile.Value = false;
 
-			// make sure volume is in boundaries
+			// make sure volume is in boundaries (although this is checked by UI already)
 			if (volume < 0.0f) volume = 0.0f;
 			if (volume > 1.0f) volume = 1.0f;
 			
@@ -67,7 +67,7 @@ namespace T3.Operators.Types.Id_67d695fe_bdfd_48ba_b091_3a427d687a41
 				Bass.ChannelSetSync(_stream, SyncFlags.End, 0, (handle, channel, data, user) =>
 				{
                     if (IsLooping.GetValue(context)) Bass.ChannelPlay(_stream);
-                    else Result.Value = true;
+                    else EndOfFile.Value = true;
                 });
 			}
 			
