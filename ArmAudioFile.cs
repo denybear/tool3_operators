@@ -1,24 +1,25 @@
-using System.IO;4c476766-c0f6-4dd5-ba8c-2d1021781a4c
 using T3.Core.Operator;
 using T3.Core.Operator.Attributes;
 using T3.Core.Operator.Slots;
 using T3.Core.Operator.Interfaces;
 using NAudio.Midi;
-
-
-// pad colors for Novation Launchpad mini (old version)
-#define BLACK	0x0C
-#define RED		0x0F
-#define AMBER	0x3F
-#define GREEN	0x3C
-#define ORANGE	0x2F
-#define YELLOW	0x3E
+using System;
+using Operators.Utils;
+using T3.Core.Logging;
 
 
 namespace T3.Operators.Types.Id_85a3bef9_6e33_44ec_864f_8046537c89ab
 {
     public class ArmAudioFile : Instance<ArmAudioFile>, IStatusProvider, MidiConnectionManager.IMidiConsumer
     {
+        // pad colors for Novation Launchpad mini (old version)
+        public const int BLACK = 0x0C;
+        public const int RED = 0x0F;
+        public const int AMBER = 0x3F;
+        public const int GREEN = 0x3C;
+        public const int ORANGE = 0x2F;
+        public const int YELLOW = 0x3E;
+
         // result = 
         [Output(Guid = "1bbeb6c9-d69a-48c8-b1c3-607d32c8ed52")]
         public readonly Slot<bool> Play = new();
@@ -77,7 +78,6 @@ namespace T3.Operators.Types.Id_85a3bef9_6e33_44ec_864f_8046537c89ab
             }
             _lastErrorMessage = !foundDevice ? $"Can't find MidiDevice {deviceName}" : null;
         }
-      
 
             
         private void Update(EvaluationContext context)
@@ -87,21 +87,25 @@ namespace T3.Operators.Types.Id_85a3bef9_6e33_44ec_864f_8046537c89ab
 			var isPlayFinished = IsPlayFinished.GetValue(context);
 			var padNumber = PadNumber.GetValue(context);
             var deviceName = Device.GetValue(context);
+            var channelNumber = ChannelNumber.GetValue(context);
+            int i;
 
-			// initial setup
-			if (_isFirstTimeRun)
+            // initial setup
+            if (_isFirstTimeRun)
 			{
-				// midi send set neutral color to all pads
-				_isFirstTimeRun = false;
+                // midi send set neutral color to all pads
+                for (i=0; i < 64; i++) SendNoteOn(deviceName, channelNumber, i, YELLOW);
+                _isFirstTimeRun = false;
 				Play.Value = false;
 			}
 
 			// in case song should be playing: pad is pressed, pad was armed previously, song was not playing before
 			if (isPadPressed && (padNumber == _previousPadNumber) && !Play.Value)	// need to add: && !isPlayFinished ???
 			{
-				// display the name of the playing song in the console
-				// midi send set play color to pressed pad				
-				_previousPadNumber = padNumber;
+                // display the name of the playing song in the console
+                // midi send set play color to pressed pad
+                SendNoteOn(deviceName, channelNumber, padNumber, GREEN);
+                _previousPadNumber = padNumber;
 				Play.Value = true;
 			}
 			// all other cases
@@ -109,17 +113,17 @@ namespace T3.Operators.Types.Id_85a3bef9_6e33_44ec_864f_8046537c89ab
 			{
 				if (isPadPressed || isPlayFinished)
 				{
-					// display the name of the armed song in the console
-					// midi send set neutral color to previously pressed pad
-					if (_previousPadNumber != -1) {}
-					// midi send set armed color to pressed pad
-					_previousPadNumber = padNumber;
+                    // display the name of the armed song in the console
+                    // midi send set neutral color to previously pressed pad
+                    if ((_previousPadNumber != -1) && (_previousPadNumber != padNumber)) SendNoteOn(deviceName, channelNumber, _previousPadNumber, YELLOW);
+                    // midi send set armed color to pressed pad
+                    SendNoteOn(deviceName, channelNumber, padNumber, RED);
+                    _previousPadNumber = padNumber;
 					Play.Value = false;				
 				}
 			}
 		}	
 		
-
         IStatusProvider.StatusLevel IStatusProvider.GetStatusLevel()
         {
             return string.IsNullOrEmpty(_errorMessageForStatus) ? IStatusProvider.StatusLevel.Success : IStatusProvider.StatusLevel.Error;
@@ -135,32 +139,23 @@ namespace T3.Operators.Types.Id_85a3bef9_6e33_44ec_864f_8046537c89ab
 		private bool _isFirstTimeRun = true;
 		private int _previousPadNumber = -1;
         private string _errorMessageForStatus;
-
+        private string _lastErrorMessage;
 
 
         // We don't actually receive midi in this operator, those methods can remain empty, we just want the MIDI connection thread up
         public void MessageReceivedHandler(object sender, MidiInMessageEventArgs msg) {}
-
         public void ErrorReceivedHandler(object sender, MidiInMessageEventArgs msg) {}
-
         public void OnSettingsChanged() {}
 
         
         [Input(Guid = "5192e146-dee5-4278-9fe2-62c724fe3d5a")]
         public readonly InputSlot<string> Path = new();
 
-
-// replace with device and channel number
         [Input(Guid = "9629e7e9-00d4-43a9-8078-96f91e0f9536")]
-        public readonly InputSlot<int> NeutralPadColor = new();
+        public readonly InputSlot<string> Device = new();
 
         [Input(Guid = "72d8c2c8-99fb-4e5a-a7b5-a4d664afb879")]
-        public readonly InputSlot<int> ArmedPadColor = new();
-
-        [Input(Guid = "2636fcb6-4ffb-4d14-8d80-9c93f1db365a")]
-        public readonly InputSlot<int> PlayingPadColor = new();
-
-
+        public readonly InputSlot<int> ChannelNumber = new();
 
         [Input(Guid = "15585cf2-e5cb-43d8-869e-ec981caa8a76")]
         public readonly InputSlot<int> PadNumber = new();

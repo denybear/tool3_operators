@@ -8,15 +8,11 @@
             "DefaultValue": "Resources\\common\\test-footage\\test-720p.mp4"
         },
         {
-            "Id": "9629e7e9-00d4-43a9-8078-96f91e0f9536" /*NeutralPadColor*/,
-            "DefaultValue": 0
+            "Id": "9629e7e9-00d4-43a9-8078-96f91e0f9536" /*Device*/,
+            "DefaultValue": ""
         },
         {
-            "Id": "72d8c2c8-99fb-4e5a-a7b5-a4d664afb879" /*ArmedPadColor*/,
-            "DefaultValue": 0
-        },
-        {
-            "Id": "2636fcb6-4ffb-4d14-8d80-9c93f1db365a" /*PlayingPadColor*/,
+            "Id": "72d8c2c8-99fb-4e5a-a7b5-a4d664afb879" /*ChannelNumber*/,
             "DefaultValue": 0
         },
         {
