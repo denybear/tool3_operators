@@ -102,6 +102,7 @@ namespace T3.Operators.Types.Id_85a3bef9_6e33_44ec_864f_8046537c89ab
 			var isPadPressed = IsPadPressed.GetValue(context);
             var isPlayFinished = IsPlayFinished.GetValue(context);
 			var padNumber = PadNumber.GetValue(context);
+            var padVelocity = PadVelocity.GetValue(context);
             var deviceName = DeviceName.GetValue(context);
             var channelNumber = ChannelNumber.GetValue(context);
             string songName = ExtractSubstringAfterLastBackslash(url);      // last part of the path
@@ -115,6 +116,9 @@ namespace T3.Operators.Types.Id_85a3bef9_6e33_44ec_864f_8046537c89ab
                 _isFirstTimeRun = false;
 				Play.Value = false;
 			}
+
+            // in case pad is pressed, but velocity == 0, then this is a note-off: discard press
+            if (isPadPressed && (padVelocity == 0)) isPadPressed = false;
 
 			// in case song should be playing: pad is pressed, pad was armed previously, song was not playing before
 			if (isPadPressed && (padNumber == _previousPadNumber) && !Play.Value)	// need to add: && !isPlayFinished ???
@@ -178,7 +182,10 @@ namespace T3.Operators.Types.Id_85a3bef9_6e33_44ec_864f_8046537c89ab
 
         [Input(Guid = "15585cf2-e5cb-43d8-869e-ec981caa8a76")]
         public readonly InputSlot<int> PadNumber = new();
-        
+
+        [Input(Guid = "477a5b32-1265-4b69-9afb-ff0b83e1f443")]
+        public readonly InputSlot<int> PadVelocity = new();
+
         [Input(Guid = "8c326c6f-6f93-469f-b2c3-315873b81bc4")]
         public readonly InputSlot<bool> IsPadPressed = new();
 

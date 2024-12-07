@@ -20,6 +20,10 @@
             "DefaultValue": 0
         },
         {
+            "Id": "477a5b32-1265-4b69-9afb-ff0b83e1f443" /*PadVelocity*/,
+            "DefaultValue": 0
+        },
+        {
             "Id": "8c326c6f-6f93-469f-b2c3-315873b81bc4" /*IsPadPressed*/,
             "DefaultValue": false
         },
