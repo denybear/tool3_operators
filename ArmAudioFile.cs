@@ -42,7 +42,7 @@ namespace T3.Operators.Types.Id_85a3bef9_6e33_44ec_864f_8046537c89ab
         }
 
 
-        private void SendNoteOn(string deviceName, int channel, int note, int velocity)
+        private void SendNoteOn(string devName, int channel, int note, int velocity)
         {
             var foundDevice = false;
 
@@ -54,7 +54,7 @@ namespace T3.Operators.Types.Id_85a3bef9_6e33_44ec_864f_8046537c89ab
             
             foreach (var (m, device) in MidiConnectionManager.MidiOutsWithDevices)
             {
-                if (device.ProductName != deviceName)
+                if (device.ProductName != devName)
                     continue;
                 
                 try
@@ -71,23 +71,40 @@ namespace T3.Operators.Types.Id_85a3bef9_6e33_44ec_864f_8046537c89ab
                 }
                 catch (Exception e)
                 {
-                    _lastErrorMessage = $"Failed to send midi to {deviceName}: " + e.Message;
+                    _lastErrorMessage = $"Failed to send midi to {devName}: " + e.Message;
                     Log.Warning(_lastErrorMessage, this);
                 }
                 
             }
-            _lastErrorMessage = !foundDevice ? $"Can't find MidiDevice {deviceName}" : null;
+            _lastErrorMessage = !foundDevice ? $"Can't find MidiDevice {devName}" : null;
         }
 
-            
-        private void Update(EvaluationContext context)
+
+        static string ExtractSubstringAfterLastBackslash(string input)
+        {
+            // Checks if string contains '\'
+            int lastBackslashIndex = input.LastIndexOf('\\');
+
+            // If the char is not found, returns the entire string
+            if (lastBackslashIndex == -1)
+            {
+                return input;
+            }
+
+            // Extract the sub-string after the last '\'
+            return input.Substring(lastBackslashIndex + 1);
+        }
+
+
+    private void Update(EvaluationContext context)
         {
             var url = Path.GetValue(context);
 			var isPadPressed = IsPadPressed.GetValue(context);
-			var isPlayFinished = IsPlayFinished.GetValue(context);
+            var isPlayFinished = IsPlayFinished.GetValue(context);
 			var padNumber = PadNumber.GetValue(context);
-            var deviceName = Device.GetValue(context);
+            var deviceName = DeviceName.GetValue(context);
             var channelNumber = ChannelNumber.GetValue(context);
+            string songName = ExtractSubstringAfterLastBackslash(url);      // last part of the path
             int i;
 
             // initial setup
@@ -103,6 +120,7 @@ namespace T3.Operators.Types.Id_85a3bef9_6e33_44ec_864f_8046537c89ab
 			if (isPadPressed && (padNumber == _previousPadNumber) && !Play.Value)	// need to add: && !isPlayFinished ???
 			{
                 // display the name of the playing song in the console
+                Console.WriteLine($"Playing: {songName}");
                 // midi send set play color to pressed pad
                 SendNoteOn(deviceName, channelNumber, padNumber, GREEN);
                 _previousPadNumber = padNumber;
@@ -114,6 +132,7 @@ namespace T3.Operators.Types.Id_85a3bef9_6e33_44ec_864f_8046537c89ab
 				if (isPadPressed || isPlayFinished)
 				{
                     // display the name of the armed song in the console
+                    Console.WriteLine($"Arming: {songName}");
                     // midi send set neutral color to previously pressed pad
                     if ((_previousPadNumber != -1) && (_previousPadNumber != padNumber)) SendNoteOn(deviceName, channelNumber, _previousPadNumber, YELLOW);
                     // midi send set armed color to pressed pad
@@ -151,8 +170,8 @@ namespace T3.Operators.Types.Id_85a3bef9_6e33_44ec_864f_8046537c89ab
         [Input(Guid = "5192e146-dee5-4278-9fe2-62c724fe3d5a")]
         public readonly InputSlot<string> Path = new();
 
-        [Input(Guid = "9629e7e9-00d4-43a9-8078-96f91e0f9536")]
-        public readonly InputSlot<string> Device = new();
+        [Input(Guid = "a3d0b91d-6bf0-491c-a49f-fe6474049448")]
+        public readonly InputSlot<string> DeviceName = new();
 
         [Input(Guid = "72d8c2c8-99fb-4e5a-a7b5-a4d664afb879")]
         public readonly InputSlot<int> ChannelNumber = new();
@@ -165,5 +184,6 @@ namespace T3.Operators.Types.Id_85a3bef9_6e33_44ec_864f_8046537c89ab
 
         [Input(Guid = "4a2787ad-6bef-42c3-8156-a22551f61033")]
         public readonly InputSlot<bool> IsPlayFinished = new();
+
     }
 }

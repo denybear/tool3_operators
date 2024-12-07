@@ -12,11 +12,12 @@
             "FileFilter": "All Files|*.*|Audio files (mp3,wav,ogg)|*.mp3;*.wav;*.ogg"
         },
         {
-            "InputId": "9629e7e9-00d4-43a9-8078-96f91e0f9536" /*Device*/,
+            "InputId": "a3d0b91d-6bf0-491c-a49f-fe6474049448" /*DeviceName*/,
             "Position": {
                 "X": 51.512096,
                 "Y": 91.99597
-            }
+            },
+            "Usage": "Midi Device name"                       // is absolutely required, otherwise program crashes 
         },
         {
             "InputId": "72d8c2c8-99fb-4e5a-a7b5-a4d664afb879" /*ChannelNumber*/,
@@ -24,8 +25,8 @@
                 "X": 51.512096,
                 "Y": 136.99597
             },
-            "Min": 0,
-            "Max": 15,
+            "Min": 1,
+            "Max": 16,
             "Clamp": true
         },
         {
