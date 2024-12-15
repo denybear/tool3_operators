@@ -124,6 +124,7 @@ namespace T3.Operators.Types.Id_85a3bef9_6e33_44ec_864f_8046537c89ab
 			if (isPadPressed && (padNumber == _previousPadNumber) && !Play.Value)	// need to add: && !isPlayFinished ???
 			{
                 // display the name of the playing song in the console
+                // SHOULD USE A MESSAGE OUTPUT AND logmessage operator
                 Console.WriteLine($"Playing: {songName}");
                 // midi send set play color to pressed pad
                 SendNoteOn(deviceName, channelNumber, padNumber, GREEN);
@@ -136,6 +137,7 @@ namespace T3.Operators.Types.Id_85a3bef9_6e33_44ec_864f_8046537c89ab
 				if (isPadPressed || isPlayFinished)
 				{
                     // display the name of the armed song in the console
+                    // SHOULD USE A MESSAGE OUTPUT AND logmessage operator
                     Console.WriteLine($"Arming: {songName}");
                     // midi send set neutral color to previously pressed pad
                     if ((_previousPadNumber != -1) && (_previousPadNumber != padNumber)) SendNoteOn(deviceName, channelNumber, _previousPadNumber, YELLOW);

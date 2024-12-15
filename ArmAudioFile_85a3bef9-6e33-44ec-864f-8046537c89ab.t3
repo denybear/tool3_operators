@@ -2,36 +2,36 @@
   "Name": "ArmAudioFile",
   "Id": "85a3bef9-6e33-44ec-864f-8046537c89ab",
   "Namespace": "user.denis",
-    "Inputs": [
-        {
-            "Id": "5192e146-dee5-4278-9fe2-62c724fe3d5a" /*Path*/,
-            "DefaultValue": "Resources\\common\\test-footage\\test-720p.mp4"
-        },
-        {
-            "Id": "a3d0b91d-6bf0-491c-a49f-fe6474049448" /*DeviceName*/,
-            "DefaultValue": ""
-        },
-        {
-            "Id": "72d8c2c8-99fb-4e5a-a7b5-a4d664afb879" /*ChannelNumber*/,
-            "DefaultValue": 1
-        },
-        {
-            "Id": "15585cf2-e5cb-43d8-869e-ec981caa8a76" /*PadNumber*/,
-            "DefaultValue": 0
-        },
-        {
-            "Id": "477a5b32-1265-4b69-9afb-ff0b83e1f443" /*PadVelocity*/,
-            "DefaultValue": 0
-        },
-        {
-            "Id": "8c326c6f-6f93-469f-b2c3-315873b81bc4" /*IsPadPressed*/,
-            "DefaultValue": false
-        },
-        {
-            "Id": "4a2787ad-6bef-42c3-8156-a22551f61033" /*IsPlayFinished*/,
-            "DefaultValue": false
-        }
-    ],
+  "Inputs": [
+    {
+      "Id": "5192e146-dee5-4278-9fe2-62c724fe3d5a"/*Path*/,
+      "DefaultValue": "Resources\\common\\test-footage\\test-720p.mp4"
+    },
+    {
+      "Id": "a3d0b91d-6bf0-491c-a49f-fe6474049448"/*DeviceName*/,
+      "DefaultValue": ""
+    },
+    {
+      "Id": "72d8c2c8-99fb-4e5a-a7b5-a4d664afb879"/*ChannelNumber*/,
+      "DefaultValue": 1
+    },
+    {
+      "Id": "15585cf2-e5cb-43d8-869e-ec981caa8a76"/*PadNumber*/,
+      "DefaultValue": 0
+    },
+    {
+      "Id": "477a5b32-1265-4b69-9afb-ff0b83e1f443"/*PadVelocity*/,
+      "DefaultValue": 0
+    },
+    {
+      "Id": "8c326c6f-6f93-469f-b2c3-315873b81bc4"/*IsPadPressed*/,
+      "DefaultValue": false
+    },
+    {
+      "Id": "4a2787ad-6bef-42c3-8156-a22551f61033"/*IsPlayFinished*/,
+      "DefaultValue": false
+    }
+  ],
   "Children": [],
   "Connections": []
 }

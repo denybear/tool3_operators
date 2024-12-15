@@ -1,69 +1,69 @@
 {
   "Id": "85a3bef9-6e33-44ec-864f-8046537c89ab"/*ArmAudioFile*/,
   "Description": "This is used to drive Novation Launchpad to play audio files.",
-    "InputUis": [
-        {
-            "InputId": "5192e146-dee5-4278-9fe2-62c724fe3d5a" /*Path*/,
-            "Position": {
-                "X": 51.512096,
-                "Y": 46.995968
-            },
-            "Usage": "FilePath",
-            "FileFilter": "All Files|*.*|Audio files (mp3,wav,ogg)|*.mp3;*.wav;*.ogg"
-        },
-        {
-            "InputId": "a3d0b91d-6bf0-491c-a49f-fe6474049448" /*DeviceName*/,
-            "Position": {
-                "X": 51.512096,
-                "Y": 91.99597
-            },
-            "Usage": "Midi Device name" // is absolutely required, otherwise program crashes 
-        },
-        {
-            "InputId": "72d8c2c8-99fb-4e5a-a7b5-a4d664afb879" /*ChannelNumber*/,
-            "Position": {
-                "X": 51.512096,
-                "Y": 136.99597
-            },
-            "Min": 1,
-            "Max": 16,
-            "Clamp": true
-        },
-        {
-            "InputId": "15585cf2-e5cb-43d8-869e-ec981caa8a76" /*PadNumber*/,
-            "Position": {
-                "X": 51.512096,
-                "Y": 181.99597
-            },
-            "Min": 0,
-            "Max": 127,
-            "Clamp": true
-        },
-        {
-            "InputId": "477a5b32-1265-4b69-9afb-ff0b83e1f443" /*PadVelocity*/,
-            "Position": {
-                "X": 51.512096,
-                "Y": 226.99597
-            },
-            "Min": 0,
-            "Max": 127,
-            "Clamp": true
-        },
-        {
-            "InputId": "8c326c6f-6f93-469f-b2c3-315873b81bc4" /*IsPadPressed*/,
-            "Position": {
-                "X": 51.512096,
-                "Y": 271.99597
-            }
-        },
-        {
-            "InputId": "4a2787ad-6bef-42c3-8156-a22551f61033" /*IsPlayFinished*/,
-            "Position": {
-                "X": 51.512096,
-                "Y": 316.99597
-            }
-        }
-    ],
+  "InputUis": [
+    {
+      "InputId": "5192e146-dee5-4278-9fe2-62c724fe3d5a"/*Path*/,
+      "Position": {
+        "X": 51.512096,
+        "Y": 46.995968
+      },
+      "Usage": "FilePath",
+      "FileFilter": "All Files|*.*|Audio files (mp3,wav,ogg)|*.mp3;*.wav;*.ogg"
+    },
+    {
+      "InputId": "a3d0b91d-6bf0-491c-a49f-fe6474049448"/*DeviceName*/,
+      "Position": {
+        "X": 51.512096,
+        "Y": 91.99597
+      },
+      "Usage": "Default"
+    },
+    {
+      "InputId": "72d8c2c8-99fb-4e5a-a7b5-a4d664afb879"/*ChannelNumber*/,
+      "Position": {
+        "X": 51.512096,
+        "Y": 136.99597
+      },
+      "Min": 1,
+      "Max": 16,
+      "Clamp": true
+    },
+    {
+      "InputId": "15585cf2-e5cb-43d8-869e-ec981caa8a76"/*PadNumber*/,
+      "Position": {
+        "X": 51.512096,
+        "Y": 181.99597
+      },
+      "Min": 0,
+      "Max": 127,
+      "Clamp": true
+    },
+    {
+      "InputId": "477a5b32-1265-4b69-9afb-ff0b83e1f443"/*PadVelocity*/,
+      "Position": {
+        "X": 51.512096,
+        "Y": 226.99597
+      },
+      "Min": 0,
+      "Max": 127,
+      "Clamp": true
+    },
+    {
+      "InputId": "8c326c6f-6f93-469f-b2c3-315873b81bc4"/*IsPadPressed*/,
+      "Position": {
+        "X": 51.512096,
+        "Y": 271.99597
+      }
+    },
+    {
+      "InputId": "4a2787ad-6bef-42c3-8156-a22551f61033"/*IsPlayFinished*/,
+      "Position": {
+        "X": 51.512096,
+        "Y": 316.99597
+      }
+    }
+  ],
   "SymbolChildUis": [],
   "OutputUis": [
     {

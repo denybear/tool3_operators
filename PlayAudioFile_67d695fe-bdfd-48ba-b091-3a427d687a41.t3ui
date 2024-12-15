@@ -39,6 +39,13 @@
   "SymbolChildUis": [],
   "OutputUis": [
     {
+        "OutputId": "b8ab02cc-2856-428d-bf88-2b775c8ca1e3" /*Result*/,
+        "Position": {
+            "X": 0.0,
+            "Y": 300.0
+        }
+    },
+    {
       "OutputId": "4782802f-39bf-47bf-9598-6a7be88fefab"/*EndOfFile*/,
       "Position": {
         "X": 0.0,

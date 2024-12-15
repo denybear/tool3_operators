@@ -3,6 +3,7 @@ using T3.Core.Operator;
 using T3.Core.Operator.Attributes;
 using T3.Core.Operator.Slots;
 using T3.Core.Operator.Interfaces;
+using T3.Core.DataTypes;
 using ManagedBass;
 
 
@@ -10,6 +11,11 @@ namespace T3.Operators.Types.Id_67d695fe_bdfd_48ba_b091_3a427d687a41
 {
     public class PlayAudioFile : Instance<PlayAudioFile>, IStatusProvider
     {
+        // not sure of the use of DirtyFlag... removing it for the moment
+//        [Output(Guid = "b8ab02cc-2856-428d-bf88-2b775c8ca1e3", DirtyFlagTrigger = DirtyFlagTrigger.Animated)]
+        [Output(Guid = "b8ab02cc-2856-428d-bf88-2b775c8ca1e3")]
+        public readonly Slot<Command> Result = new();
+
         // endoffile = true in case "is playing" is true, and audio file is finished: ie. "play is finished"
         [Output(Guid = "4782802f-39bf-47bf-9598-6a7be88fefab")]
         public readonly Slot<bool> EndOfFile = new();
@@ -17,7 +23,7 @@ namespace T3.Operators.Types.Id_67d695fe_bdfd_48ba_b091_3a427d687a41
         
         public PlayAudioFile()
         {
-            EndOfFile.UpdateAction = Update;
+            Result.UpdateAction = Update;
         }
             
         private void Update(EvaluationContext context)
@@ -26,9 +32,6 @@ namespace T3.Operators.Types.Id_67d695fe_bdfd_48ba_b091_3a427d687a41
 			var isPlaying = IsPlaying.GetValue(context);
 			var volume = Volume.GetValue(context);
 
-            // set result output value
-            EndOfFile.Value = false;
-
 			// make sure volume is in boundaries (although this is checked by UI already)
 			if (volume < 0.0f) volume = 0.0f;
 			if (volume > 1.0f) volume = 1.0f;
@@ -36,7 +39,9 @@ namespace T3.Operators.Types.Id_67d695fe_bdfd_48ba_b091_3a427d687a41
 			// play is triggered: create stream, play file
 			if (isPlaying && !_wasPlayingPreviously)
 			{
-                if(!File.Exists(url))
+                _EOF = false;
+
+                if (!File.Exists(url))
                 {
                     _errorMessageForStatus = $"File not found: {url}";
                     return;
@@ -67,24 +72,30 @@ namespace T3.Operators.Types.Id_67d695fe_bdfd_48ba_b091_3a427d687a41
 				Bass.ChannelSetSync(_stream, SyncFlags.End, 0, (handle, channel, data, user) =>
 				{
                     if (IsLooping.GetValue(context)) Bass.ChannelPlay(_stream);
-                    else EndOfFile.Value = true;
+                    else _EOF = true;
                 });
 			}
 			
 			// stop playing
 			if (!isPlaying && _wasPlayingPreviously)
 			{
+                // _EOF = false;        // uncomment if you want to reset endOfFile if playing is finished
 				Bass.ChannelStop(_stream);
 				Bass.Free();
 			}
+
 			
 			// update playing state
 			_wasPlayingPreviously = isPlaying;
-		}
-		
-		
-		private bool _wasPlayingPreviously = false;
+
+            // set result output value
+            EndOfFile.Value = _EOF;
+        }
+
+
+        private bool _wasPlayingPreviously = false;
 		private int _stream = 0;
+        private bool _EOF = false;
 
         IStatusProvider.StatusLevel IStatusProvider.GetStatusLevel()
         {
