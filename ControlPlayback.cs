@@ -22,9 +22,9 @@ namespace T3.Operators.Types.Id_1bf89533_2025_42b2_96a2_879f91b418ea
             
         private void Update(EvaluationContext context)
         {
-            var play = PlaybackPlayFromStartTime.GetValue(context);
-			var stop = PlaybackStop.GetValue(context);
-            var newTime = PlaybackStartBar.GetValue(context);
+            var play = Play.GetValue(context);
+			var stop = Stop.GetValue(context);
+            var newTime = StartBar.GetValue(context);
             var playback = Playback.Current; // TODO, this should be non-static eventually
 
             if (float.IsNaN(newTime) || float.IsInfinity(newTime))
@@ -65,12 +65,12 @@ namespace T3.Operators.Types.Id_1bf89533_2025_42b2_96a2_879f91b418ea
         public readonly InputSlot<Command> SubGraph = new();
 
         [Input(Guid = "7427f1cd-45de-49dd-b6ac-7794ccb28671")]
-        public readonly InputSlot<bool> PlaybackPlayFromStartTime = new();
+        public readonly InputSlot<bool> Play = new();
 
         [Input(Guid = "e8c1cc08-14ab-4b48-a545-0cb658239fef")]
-        public readonly InputSlot<bool> PlaybackStop = new();
+        public readonly InputSlot<bool> Stop = new();
 
         [Input(Guid = "621e9ba4-03b3-43b0-b456-00e93c604be4")]
-        public readonly InputSlot<float> PlaybackStartBar = new();
+        public readonly InputSlot<float> StartBar = new();
     }
 }

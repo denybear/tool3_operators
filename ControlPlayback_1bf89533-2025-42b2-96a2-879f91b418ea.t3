@@ -8,15 +8,15 @@
             "DefaultValue": null
         },
         {
-            "Id": "7427f1cd-45de-49dd-b6ac-7794ccb28671" /*PlaybackPlayFromStartTime*/,
+            "Id": "7427f1cd-45de-49dd-b6ac-7794ccb28671" /*Play*/,
             "DefaultValue": false
         },
         {
-            "Id": "e8c1cc08-14ab-4b48-a545-0cb658239fef" /*PlaybackStop*/,
+            "Id": "e8c1cc08-14ab-4b48-a545-0cb658239fef" /*Stop*/,
             "DefaultValue": false
         },
         {
-            "Id": "621e9ba4-03b3-43b0-b456-00e93c604be4" /*PlaybackStartBar*/,
+            "Id": "621e9ba4-03b3-43b0-b456-00e93c604be4" /*StartBar*/,
             "DefaultValue": 0.0
         }
     ],
