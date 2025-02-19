@@ -1,0 +1,17 @@
+{
+    "Name": "ControlPlayback",
+    "Id": "1bf89533-2025-42b2-96a2-879f91b418ea",
+    "Namespace": "user.denis",
+    "Inputs": [
+        {
+            "Id": "7427f1cd-45de-49dd-b6ac-7794ccb28671" /*PlaybackPlayFromStartTime*/,
+            "DefaultValue": false
+        },
+        {
+            "Id": "e8c1cc08-14ab-4b48-a545-0cb658239fef" /*PlaybackStop*/,
+            "DefaultValue": false
+        }
+    ],
+    "Children": [],
+    "Connections": []
+}
