@@ -3,26 +3,41 @@
     "Description": "This a work around to play/stop timeline.",
     "InputUis": [
         {
-            "InputId": "7427f1cd-45de-49dd-b6ac-7794ccb28671" /*PlaybackPlayFromStartTime*/,
+            "InputId": "7f73f0cd-91fe-4a83-b1ec-8fe7f2914368" /*SubGraph*/,
             "Position": {
                 "X": 51.512096,
                 "Y": 46.995968
+            }
+        },
+        {
+            "InputId": "7427f1cd-45de-49dd-b6ac-7794ccb28671" /*PlaybackPlayFromStartTime*/,
+            "Position": {
+                "X": 51.512096,
+                "Y": 91.995968
             },
-            "Usage": "When triggered, this plays the timeline from the start time"
+            "Usage": "When triggered, this plays the timeline from the start bar"
         },
         {
             "InputId": "e8c1cc08-14ab-4b48-a545-0cb658239fef" /*PlaybackStop*/,
             "Position": {
                 "X": 51.512096,
-                "Y": 91.99597
+                "Y": 136.995968
             },
             "Usage": "When triggered, this stops the timeline"
+        },
+        {
+            "InputId": "621e9ba4-03b3-43b0-b456-00e93c604be4" /*PlaybackStartBar*/,
+            "Position": {
+                "X": 51.512096,
+                "Y": 181.995968
+            },
+            "Usage": "Start Bar"
         }
     ],
     "SymbolChildUis": [],
     "OutputUis": [
         {
-            "OutputId": "21fa987e-a134-454a-a7b9-5df4d825c0cd" /*Result*/,
+            "OutputId": "21fa987e-a134-454a-a7b9-5df4d825c0cd" /*Commands*/,
             "Position": {
                 "X": 0.0,
                 "Y": 300.0
