@@ -8,6 +8,10 @@
             "DefaultValue": null
         },
         {
+            "Id": "9bd1ff84-805c-48e9-b9fd-c933b1935798" /*TriggerMode*/,
+            "DefaultValue": 0
+        },
+        {
             "Id": "7427f1cd-45de-49dd-b6ac-7794ccb28671" /*Play*/,
             "DefaultValue": false
         },

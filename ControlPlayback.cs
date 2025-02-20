@@ -5,6 +5,7 @@ using T3.Core.Operator.Slots;
 using T3.Core.Operator.Interfaces;
 using T3.Core.DataTypes;
 using T3.Core.Animation;
+using T3.Core.Utils;
 
 
 namespace T3.Operators.Types.Id_1bf89533_2025_42b2_96a2_879f91b418ea
@@ -25,7 +26,17 @@ namespace T3.Operators.Types.Id_1bf89533_2025_42b2_96a2_879f91b418ea
             var play = Play.GetValue(context);
 			var stop = Stop.GetValue(context);
             var newTime = StartBar.GetValue(context);
+            var mode = TriggerMode.GetEnumValue<Modes>(context);
+            var wasPlayTriggered = MathUtils.WasTriggered(play, ref _wasPlay);
+            var wasStopTriggered = MathUtils.WasTriggered(stop, ref _wasStop);
+
             var playback = Playback.Current; // TODO, this should be non-static eventually
+
+            if (playback == null)
+            {
+                Log.Warning("Can't set playback time without active Playback", this);
+                return;
+			}
 
             if (float.IsNaN(newTime) || float.IsInfinity(newTime))
             {
@@ -33,18 +44,21 @@ namespace T3.Operators.Types.Id_1bf89533_2025_42b2_96a2_879f91b418ea
             }
 
             // play is triggered: create stream, play file
-            if (play)
+            if (wasPlayTriggered || (play && mode == Modes.Continuously))
             {
                 playback.TimeInBars = playback.IsLooping ? playback.LoopRange.Start : newTime;
                 playback.PlaybackSpeed = 1;
                 _lastPlaybackStartTime = playback.TimeInBars;
             }
 
-            if (stop)
+            if (wasStopTriggered || (stop && mode == Modes.Continuously))
             {
                 playback.PlaybackSpeed = 0;
                     playback.TimeInBars = _lastPlaybackStartTime;
             }
+
+
+            SubGraph.GetValue(context);
         }
 
 
@@ -60,10 +74,21 @@ namespace T3.Operators.Types.Id_1bf89533_2025_42b2_96a2_879f91b418ea
         
         private string _errorMessageForStatus;
         public static double _lastPlaybackStartTime;
+        private bool _wasPlay;
+        private bool _wasStop;
+        private enum Modes
+        {
+            OnceEnabledGetsTrue,
+            Continuously
+        };
+
 
         [Input(Guid = "7f73f0cd-91fe-4a83-b1ec-8fe7f2914368")]
         public readonly InputSlot<Command> SubGraph = new();
 
+        [Input(Guid = "9bd1ff84-805c-48e9-b9fd-c933b1935798", MappedType = typeof(Modes))]
+        public readonly InputSlot<int> TriggerMode = new();
+        
         [Input(Guid = "7427f1cd-45de-49dd-b6ac-7794ccb28671")]
         public readonly InputSlot<bool> Play = new();
 

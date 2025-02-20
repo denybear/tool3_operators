@@ -1,6 +1,6 @@
 {
     "Id": "1bf89533-2025-42b2-96a2-879f91b418ea" /*ControlPlayback*/,
-    "Description": "This a work around to play/stop timeline. Play starts at StartBar.",
+    "Description": "This a work around to play/stop playback. Play starts at StartBar.",
     "InputUis": [
         {
             "InputId": "7f73f0cd-91fe-4a83-b1ec-8fe7f2914368" /*SubGraph*/,
@@ -10,10 +10,17 @@
             }
         },
         {
-            "InputId": "7427f1cd-45de-49dd-b6ac-7794ccb28671" /*Play*/,
+            "InputId": "9bd1ff84-805c-48e9-b9fd-c933b1935798" /*TriggerMode*/,
             "Position": {
                 "X": 51.512096,
                 "Y": 91.995968
+            }
+        },	
+        {
+            "InputId": "7427f1cd-45de-49dd-b6ac-7794ccb28671" /*Play*/,
+            "Position": {
+                "X": 51.512096,
+                "Y": 136.995968
             },
             "Usage": "When triggered, this plays the timeline from the start bar"
         },
@@ -21,7 +28,7 @@
             "InputId": "e8c1cc08-14ab-4b48-a545-0cb658239fef" /*Stop*/,
             "Position": {
                 "X": 51.512096,
-                "Y": 136.995968
+                "Y": 181.995968
             },
             "Usage": "When triggered, this stops the timeline"
         },
@@ -29,7 +36,7 @@
             "InputId": "621e9ba4-03b3-43b0-b456-00e93c604be4" /*StartBar*/,
             "Position": {
                 "X": 51.512096,
-                "Y": 181.995968
+                "Y": 226.995968
             },
             "Usage": "Start Bar"
         }

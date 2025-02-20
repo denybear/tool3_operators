@@ -8,16 +8,12 @@
             "DefaultValue": null
         },
         {
-            "Id": "b5ac524c-d994-4782-949e-2f793e5a4ff2" /*TimeInBars*/,
+            "Id": "b5ac524c-d994-4782-949e-2f793e5a4ff2" /*StartBar*/,
             "DefaultValue": 0.0
         },
         {
-            "Id": "9bd1ff84-805c-48e9-b9fd-c933b1935798" /*TriggerMode*/,
-            "DefaultValue": 0
-        },
-        {
-            "Id": "aa4ce82f-3ca8-44b6-ad5a-daf4d9ebc742" /*Enabled*/,
-            "DefaultValue": false
+            "Id": "aa4ce82f-3ca8-44b6-ad5a-daf4d9ebc742" /*EndBar*/,
+            "DefaultValue": 9999.0
         },
         {
             "Id": "04755914-9481-491e-8a90-d6b562e2299c" /*ShowLogMessages*/,
