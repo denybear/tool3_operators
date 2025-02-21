@@ -6,6 +6,7 @@ using T3.Core.Operator.Interfaces;
 using T3.Core.DataTypes;
 using T3.Core.Animation;
 using T3.Core.Utils;
+using T3.Core.Logging;
 
 
 namespace T3.Operators.Types.Id_1bf89533_2025_42b2_96a2_879f91b418ea

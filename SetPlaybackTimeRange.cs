@@ -26,12 +26,12 @@ namespace T3.Operators.Types.Id_fb2d2134_f5b2_4ecc_8b83_a3c89494b488
             
             if (float.IsNaN(startb) || float.IsInfinity(startb))
             {
-                startb = 0.0;
+                startb = 0.0f;
             }
 
             if (float.IsNaN(endb) || float.IsInfinity(endb))
             {
-                endb = float.Infinity;
+                endb = float.PositiveInfinity;
             }
 
             if (Playback.Current == null)
@@ -42,7 +42,8 @@ namespace T3.Operators.Types.Id_fb2d2134_f5b2_4ecc_8b83_a3c89494b488
 
             if (ShowLogMessages.GetValue(context))
             {
-                Log.Debug($"Setting playback time to {startb, endb}", this);
+                Log.Debug($"Setting playback start time to {startb}", this);
+                Log.Debug($"Setting playback end time to {endb}", this);
             }
 
             if (Playback.Current.TimeInBars < startb) Playback.Current.TimeInBars = startb;
