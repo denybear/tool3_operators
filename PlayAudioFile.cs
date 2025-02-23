@@ -5,20 +5,20 @@ using T3.Core.Operator.Slots;
 using T3.Core.Operator.Interfaces;
 using T3.Core.DataTypes;
 using ManagedBass;
+using static T3.Core.DataTypes.Gradient;
+using T3.Core.Utils;
 
 
 namespace T3.Operators.Types.Id_67d695fe_bdfd_48ba_b091_3a427d687a41
 {
     public class PlayAudioFile : Instance<PlayAudioFile>, IStatusProvider
     {
-        // not sure of the use of DirtyFlag... removing it for the moment
-//        [Output(Guid = "b8ab02cc-2856-428d-bf88-2b775c8ca1e3", DirtyFlagTrigger = DirtyFlagTrigger.Animated)]
         [Output(Guid = "b8ab02cc-2856-428d-bf88-2b775c8ca1e3")]
         public readonly Slot<Command> Result = new();
 
-        // endoffile = true in case "is playing" is true, and audio file is finished: ie. "play is finished"
+        // true in case audio is playing, false if audio is not playing or audio file EOF (audio file playing is finished)
         [Output(Guid = "4782802f-39bf-47bf-9598-6a7be88fefab")]
-        public readonly Slot<bool> EndOfFile = new();
+        public readonly Slot<bool> IsPlaying = new();
         
         
         public PlayAudioFile()
@@ -29,18 +29,22 @@ namespace T3.Operators.Types.Id_67d695fe_bdfd_48ba_b091_3a427d687a41
         private void Update(EvaluationContext context)
         {
             var url = Path.GetValue(context);
-			var isPlaying = IsPlaying.GetValue(context);
+			var enabled = Enabled.GetValue(context);
 			var volume = Volume.GetValue(context);
+            var mode = TriggerMode.GetEnumValue<Modes>(context);
+            var wasPlayStopTriggered = MathUtils.WasTriggered(enabled, ref _wasEnabled);
 
-			// make sure volume is in boundaries (although this is checked by UI already)
-			if (volume < 0.0f) volume = 0.0f;
+            // make sure volume is in boundaries (although this is checked by UI already)
+            if (volume < 0.0f) volume = 0.0f;
 			if (volume > 1.0f) volume = 1.0f;
-			
-			// play is triggered: create stream, play file
-			if (isPlaying && !_wasPlayingPreviously)
-			{
-                _EOF = false;
 
+            // play is triggered: create stream, play file
+            if (enabled && mode == Modes.OnceEnabledGetsTrue) _isPlaying = !_isPlaying;
+            if (mode == Modes.Continuously) _isPlaying = enabled;
+
+            // start playing, while previous state was stopped
+            if (_isPlaying && !_wasPlayingPreviously)
+			{
                 if (!File.Exists(url))
                 {
                     _errorMessageForStatus = $"File not found: {url}";
@@ -64,7 +68,7 @@ namespace T3.Operators.Types.Id_67d695fe_bdfd_48ba_b091_3a427d687a41
 			}
 
 			// play is in progress: adjust volume, loop in case required
-			if (isPlaying)
+			if (_isPlaying)
 			{
                 Bass.ChannelSetAttribute(_stream, ChannelAttribute.Volume, volume);
 
@@ -72,30 +76,36 @@ namespace T3.Operators.Types.Id_67d695fe_bdfd_48ba_b091_3a427d687a41
 				Bass.ChannelSetSync(_stream, SyncFlags.End, 0, (handle, channel, data, user) =>
 				{
                     if (IsLooping.GetValue(context)) Bass.ChannelPlay(_stream);
-                    else _EOF = true;
+                    else _isPlaying = false;     // end of file, we shall stop playing
                 });
 			}
 			
-			// stop playing
-			if (!isPlaying && _wasPlayingPreviously)
+			// stop playing, while previous state was playing
+			if (!_isPlaying && _wasPlayingPreviously)
 			{
-                // _EOF = false;        // uncomment if you want to reset endOfFile if playing is finished
 				Bass.ChannelStop(_stream);
 				Bass.Free();
 			}
 
 			
 			// update playing state
-			_wasPlayingPreviously = isPlaying;
+			_wasPlayingPreviously = _isPlaying;
 
             // set result output value
-            EndOfFile.Value = _EOF;
+            IsPlaying.Value = _isPlaying;
         }
 
 
         private bool _wasPlayingPreviously = false;
-		private int _stream = 0;
-        private bool _EOF = false;
+        private bool _isPlaying = false;
+        private int _stream = 0;
+        private bool _wasEnabled = false;
+
+        private enum Modes
+        {
+            OnceEnabledGetsTrue,
+            Continuously
+        };
 
         IStatusProvider.StatusLevel IStatusProvider.GetStatusLevel()
         {
@@ -115,9 +125,12 @@ namespace T3.Operators.Types.Id_67d695fe_bdfd_48ba_b091_3a427d687a41
 
         [Input(Guid = "fb38a142-0341-4509-809a-5a6e7332071f")]
         public readonly InputSlot<float> Volume = new();
-        
+
+        [Input(Guid = "44d67c1c-b7ff-49bf-be04-d4ef8cb06677", MappedType = typeof(Modes))]
+        public readonly InputSlot<int> TriggerMode = new();
+
         [Input(Guid = "80182a35-2762-46f2-b683-36a0e696037c")]
-        public readonly InputSlot<bool> IsPlaying = new();
+        public readonly InputSlot<bool> Enabled = new();
         
         [Input(Guid = "23463284-526f-4e1b-a851-1e6893a58611")]
         public readonly InputSlot<bool> IsLooping = new();
