@@ -1,0 +1,17 @@
+{
+  "Name": "BoolIndex",
+  "Id": "a9110543-78d9-4ede-8d9b-a7a557950721",
+  "Namespace": "user.denis",
+  "Inputs": [
+    {
+      "Id": "4f4c7495-d7dc-410b-9a1c-2f06c5da6f78"/*Input*/,
+      "DefaultValue": false
+    },
+    {
+      "Id": "cf0e3d52-4d97-4dd1-b4bb-c262af36db59"/*DefValue*/,
+      "DefaultValue": 0
+    }
+  ],
+  "Children": [],
+  "Connections": []
+}

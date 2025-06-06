@@ -1,0 +1,32 @@
+{
+  "Id": "a9110543-78d9-4ede-8d9b-a7a557950721"/*BoolIndex*/,
+  "Description": "Returns input number of the bool input that is set to true.",
+  "InputUis": [
+    {
+      "InputId": "4f4c7495-d7dc-410b-9a1c-2f06c5da6f78"/*Input*/,
+      "Relevancy": "Required",
+      "Position": {
+        "X": -200.0,
+        "Y": 0.0
+      }
+    },
+    {
+      "InputId": "cf0e3d52-4d97-4dd1-b4bb-c262af36db59"/*DefValue*/,
+      "Relevancy": "Required",
+      "Position": {
+        "X": -200.0,
+        "Y": 50.0
+      }
+    }
+  ],
+  "SymbolChildUis": [],
+  "OutputUis": [
+    {
+      "OutputId": "5e679e49-b778-488c-b27c-84bd8fdb6c9a"/*Result*/,
+      "Position": {
+        "X": 0.0,
+        "Y": 100.0
+      }
+    }
+  ]
+}
