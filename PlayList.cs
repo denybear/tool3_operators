@@ -6,7 +6,8 @@ using System;
 using System.Collections.Generic;
 
 
-namespace T3.Operators.Types.Id_a9110543_78d9_4ede_8d9b_a7a557950721
+namespace T3.Operators.Types.Id_813d7cdd_cf59_4c2d_a4ac_307a4c5c3b20
+
 {
 	private class PlayListEntry
 	{
@@ -64,26 +65,24 @@ namespace T3.Operators.Types.Id_a9110543_78d9_4ede_8d9b_a7a557950721
 
 	
     public class PlayList : Instance<PlayList>
-    {
-        [Output(Guid = "5e679e49-b778-488c-b27c-84bd8fdb6c9a")]
+    {		
+        [Output(Guid = "15287d50-43e0-4bef-ad49-446ab3f54e8a")]
         public readonly Slot<bool> StandardAnim = new();
-        [Output(Guid = "5e679e49-b778-488c-b27c-84bd8fdb6c9a")]
+        [Output(Guid = "4a2e5f6e-5f8c-4c11-a183-1cea01c8a41b")]
         public readonly Slot<bool> DarkSideAnim = new();
-        [Output(Guid = "5e679e49-b778-488c-b27c-84bd8fdb6c9a")]
+        [Output(Guid = "955e85b1-4264-4581-b964-595f9a7ea6ec")]
         public readonly Slot<bool> AnimalsAnim = new();
-        [Output(Guid = "5e679e49-b778-488c-b27c-84bd8fdb6c9a")]
+        [Output(Guid = "31069392-078d-4262-b18d-0fdeb96175c0")]
         public readonly Slot<bool> TheWallAnim = new();
-        [Output(Guid = "5e679e49-b778-488c-b27c-84bd8fdb6c9a")]
+        [Output(Guid = "5d23d4bb-aa12-493b-8895-5c65b700a2b0")]
         public readonly Slot<bool> DedicatedAnim = new();
-        [Output(Guid = "5e679e49-b778-488c-b27c-84bd8fdb6c9a")]
+        [Output(Guid = "666f7460-d674-4d0c-b90b-3dcddff16d95")]
         public readonly Slot<int> DedicatedAnimNumber = new();
-        [Output(Guid = "5e679e49-b778-488c-b27c-84bd8fdb6c9a")]
-        public readonly Slot<int> DedicatedAnimNumber = new();
-        [Output(Guid = "5e679e49-b778-488c-b27c-84bd8fdb6c9a")]
+        [Output(Guid = "7a485b5f-5ef8-4129-90d6-34e4e61b66fd")]
         public readonly Slot<string> Sample = new();
-        [Output(Guid = "5e679e49-b778-488c-b27c-84bd8fdb6c9a")]
+        [Output(Guid = "308b4693-f13c-4bdd-9880-eca86309ceaa")]
         public readonly Slot<bool> PlayStop = new();
-        [Output(Guid = "5e679e49-b778-488c-b27c-84bd8fdb6c9a")]
+        [Output(Guid = "e046662a-6b6b-4663-9e39-439563b698ac")]
         public readonly Slot<string> Song = new();
 
 		public ResetOuputs ()
@@ -141,12 +140,6 @@ namespace T3.Operators.Types.Id_a9110543_78d9_4ede_8d9b_a7a557950721
         private void Update(EvaluationContext context)
         {
 
-        // Iterate through the list and print each object
-//        foreach (var f in fList)
-//        {
-//            Console.WriteLine(f);
-//        }
-
 			// check previous / next pads: if present, set position in the playlist, and check the boundaries
 			// anti-bouncing mechanism is implemented
 			var preventry = PrevEntry.GetValue(context);
@@ -191,8 +184,8 @@ namespace T3.Operators.Types.Id_a9110543_78d9_4ede_8d9b_a7a557950721
 				i = i + 1;
             }
 			
-			// in case sample is found, set the right outputs
-			if (sampleFound) {
+			// in case sample pad is pressed, set the right outputs
+			if ((sampleFound) && (i<=6)) {		// we manage 6 sample pads maximum
 				if (!_formerstateplaystop) {	// this is the first time we press the pad
 					_formerstateplaystop = true;
 					Sample.Value = SetSound (pList, i);
@@ -202,7 +195,7 @@ namespace T3.Operators.Types.Id_a9110543_78d9_4ede_8d9b_a7a557950721
 					PlayStop.Value = false;
 				}
 			}
-			else {		// no sample pad pressed, we 
+			else {								// no sample pad pressed, we do nothing
 				_formerstateplaystop = false;
 				PlayStop.Value = false;
 			}
@@ -220,13 +213,13 @@ namespace T3.Operators.Types.Id_a9110543_78d9_4ede_8d9b_a7a557950721
 		private List<PlayListEntry> pList = new List<PlayListEntry>;
 
 		
-        [Input(Guid = "4f4c7495-d7dc-410b-9a1c-2f06c5da6f78")]
+        [Input(Guid = "76cc3cfb-63c3-4b44-9568-b8b8a62aebbf")]
         public readonly InputSlot<bool> SamplePads = new();
 
-        [Input(Guid = "4f4c7495-d7dc-410b-9a1c-2f06c5da6f78")]
+        [Input(Guid = "0e555710-9445-487e-9357-d1cb3b449429")]
         public readonly InputSlot<bool> PrevEntry = new();
 
-        [Input(Guid = "4f4c7495-d7dc-410b-9a1c-2f06c5da6f78")]
+        [Input(Guid = "f5cdfdac-0fe9-4eb8-a27e-9284f7ba7316")]
         public readonly InputSlot<bool> NextEntry = new();
     }
 }

@@ -1,0 +1,94 @@
+{
+  "Id": "813d7cdd-cf59-4c2d-a4ac-307a4c5c3b20"/*PlayList*/,
+  "Description": "Returns input number of the bool input that is set to true.",
+  "InputUis": [
+    {
+      "InputId": "0e555710-9445-487e-9357-d1cb3b449429"/*PrevEntry*/,
+      "Relevancy": "Required",
+      "Position": {
+        "X": -200.0,
+        "Y": 0.0
+      },
+    {
+      "InputId": "f5cdfdac-0fe9-4eb8-a27e-9284f7ba7316"/*NextEntry*/,
+      "Relevancy": "Required",
+      "Position": {
+        "X": -200.0,
+        "Y": 50.0
+      },
+    {
+      "InputId": "76cc3cfb-63c3-4b44-9568-b8b8a62aebbf"/*SamplePads*/,
+      "Relevancy": "Required",
+      "Position": {
+        "X": -200.0,
+        "Y": 100.0
+      }
+    }
+  ],
+  "SymbolChildUis": [],
+  "OutputUis": [
+    {
+      "OutputId": "15287d50-43e0-4bef-ad49-446ab3f54e8a"/*StandardAnim*/,
+      "Position": {
+        "X": 0.0,
+        "Y": 100.0
+      }
+    },
+    {
+      "OutputId": "4a2e5f6e-5f8c-4c11-a183-1cea01c8a41b"/*DarkSideAnim*/,
+      "Position": {
+        "X": 0.0,
+        "Y": 150.0
+      }
+    },
+    {
+      "OutputId": "955e85b1-4264-4581-b964-595f9a7ea6ec"/*AnimalsAnim*/,
+      "Position": {
+        "X": 0.0,
+        "Y": 200.0
+      }
+    },
+    {
+      "OutputId": "31069392-078d-4262-b18d-0fdeb96175c0"/*TheWallAnim*/,
+      "Position": {
+        "X": 0.0,
+        "Y": 250.0
+      }
+    },
+    {
+      "OutputId": "5d23d4bb-aa12-493b-8895-5c65b700a2b0"/*DedicatedAnim*/,
+      "Position": {
+        "X": 0.0,
+        "Y": 300.0
+      }
+    },
+    {
+      "OutputId": "666f7460-d674-4d0c-b90b-3dcddff16d95"/*DedicatedAnimNumber*/,
+      "Position": {
+        "X": 0.0,
+        "Y": 350.0
+      }
+    },
+    {
+      "OutputId": "7a485b5f-5ef8-4129-90d6-34e4e61b66fd"/*Sample*/,
+      "Position": {
+        "X": 0.0,
+        "Y": 400.0
+      }
+    },
+    {
+      "OutputId": "308b4693-f13c-4bdd-9880-eca86309ceaa"/*PlayStop*/,
+      "Position": {
+        "X": 0.0,
+        "Y": 450.0
+      }
+    },
+    {
+      "OutputId": "e046662a-6b6b-4663-9e39-439563b698ac"/*Song*/,
+      "Position": {
+        "X": 0.0,
+        "Y": 500.0
+      }
+    }
+  ]
+}
