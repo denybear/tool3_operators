@@ -1,6 +1,6 @@
 {
   "Id": "813d7cdd-cf59-4c2d-a4ac-307a4c5c3b20"/*PlayList*/,
-  "Description": "Returns input number of the bool input that is set to true.",
+  "Description": "implements playlist mode, where 6 pads can be used top play samples of current song, and previous-next pads allow to navigate through songs of the playlist (defined in the c# program).",
   "InputUis": [
     {
       "InputId": "0e555710-9445-487e-9357-d1cb3b449429"/*PrevEntry*/,
