@@ -7,63 +7,7 @@ using System.Collections.Generic;
 
 
 namespace T3.Operators.Types.Id_813d7cdd_cf59_4c2d_a4ac_307a4c5c3b20
-
 {
-	private class PlayListEntry
-	{
-		private int animNumber = 0;
-		public string SongName { get; set; } = "";
-		public string AnimName { get; set; } = "Standard";
-		private int animNumber;
-		public int AnimNumber {
-			get {
-				return animNumber;
-			}
-			set {
-				if (this.AnimName == "We Are") animNumber = 0;
-				if (this.AnimName == "Echoes") animNumber = 1;
-				if (this.AnimName == "Procedural Moon") animNumber = 2;
-				if (this.AnimName == "Astra Domine") animNumber = 3;
-				if (this.AnimName == "Landing Strip") animNumber = 4;
-				if (this.AnimName == "Axis Triangle") animNumber = 5;
-				if (this.AnimName == "Moving Dots") animNumber = 6;
-				if (this.AnimName == "Wool Strings") animNumber = 7;
-				if (this.AnimName == "Electric Strings") animNumber = 8;			
-			}
-		}
-		public string Sample1 { get; set; } = "";
-		public string Sample2 { get; set; } = "";
-		public string Sample3 { get; set; } = "";
-		public string Sample4 { get; set; } = "";
-		public string Sample5 { get; set; } = "";
-		public string Sample6 { get; set; } = "";
-	}
-
-	// Playlist definition HERE
-	List<PlayListEntry> pList = new List<PlayListEntry>
-	{
-		new PlayListEntry { SongName = "Intro", AminName = "We Are" },
-		new PlayListEntry { SongName = "Speak to me", AminName = "Dark Side", Sample1 = "SpeakToMe_intro.mp3" },
-		new PlayListEntry { SongName = "Breathe", AminName = "Dark Side" },
-		new PlayListEntry { SongName = "Time", AminName = "Landing Strip", AminNumber = 4, Sample1 = "Time_intro.mp3" },
-		new PlayListEntry { SongName = "The Great Gig In The Sky", AminName = "Dark Side", Sample1 = "TheGreatGigInTheSky_voice.mp3" },
-		new PlayListEntry { SongName = "Money", AminName = "Axis Triangle", Sample1 = "Money_intro.mp3", Sample2 = "Money_outro.mp3" },
-		new PlayListEntry { SongName = "Us & Them", AminName = "Wool Strings" },
-		new PlayListEntry { SongName = "Any Color You Like", AminName = "Dark Side" },
-		new PlayListEntry { SongName = "Brain Damage", AminName = "Procedural Moon", Sample1 = "BrainDamage_risata.mp3" },
-		new PlayListEntry { SongName = "Eclipse", AminName = "Procedural Moon", Sample1 = "Eclipse_outro.mp3" },
-		new PlayListEntry { SongName = "Intro", AminName = "We Are" },
-
-		new PlayListEntry { SongName = "Cymbaline", AminName = "Standard" },
-		new PlayListEntry { SongName = "Shine On You Crazy Diamond", AminName = "Astra Domine" },
-		new PlayListEntry { SongName = "Dogs", AminName = "Animals", Sample1 = "Dogs_1.mp3", Sample2 = "Dogs_2.mp3" },
-		new PlayListEntry { SongName = "Wish You Were Here", AminName = "Electric Strings", Sample1 = "WishYouWereHere_intro.mp3", Sample2 = "WishYouWereHere_outro.mp3" },
-		new PlayListEntry { SongName = "Comfortably Numb", AminName = "Moving Dots", Sample1 = "ComfortablyNumb_intro.mp3", Sample2 = "ComfortablyNumb_aaaaa.mp3" },
-		new PlayListEntry { SongName = "Another Brick In The Wall", AminName = "The Wall" },
-		new PlayListEntry { SongName = "Intro", AminName = "We Are" }
-	};
-
-	
     public class PlayList : Instance<PlayList>
     {		
         [Output(Guid = "15287d50-43e0-4bef-ad49-446ab3f54e8a")]
@@ -85,7 +29,64 @@ namespace T3.Operators.Types.Id_813d7cdd_cf59_4c2d_a4ac_307a4c5c3b20
         [Output(Guid = "e046662a-6b6b-4663-9e39-439563b698ac")]
         public readonly Slot<string> Song = new();
 
-		public ResetOuputs ()
+        public class PlayListEntry
+        {
+            private int animNumber = 0;
+            public string SongName { get; set; } = "";
+            public string AnimName { get; set; } = "Standard";
+            public int AnimNumber
+            {
+                get
+                {
+                    return animNumber;
+                }
+                set
+                {
+                    if (AnimName == "We Are") animNumber = 0;
+                    if (AnimName == "Echoes") animNumber = 1;
+                    if (AnimName == "Procedural Moon") animNumber = 2;
+                    if (AnimName == "Astra Domine") animNumber = 3;
+                    if (AnimName == "Landing Strip") animNumber = 4;
+                    if (AnimName == "Axis Triangle") animNumber = 5;
+                    if (AnimName == "Moving Dots") animNumber = 6;
+                    if (AnimName == "Wool Strings") animNumber = 7;
+                    if (AnimName == "Electric Strings") animNumber = 8;
+                }
+            }
+            public string Sample1 { get; set; } = "";
+            public string Sample2 { get; set; } = "";
+            public string Sample3 { get; set; } = "";
+            public string Sample4 { get; set; } = "";
+            public string Sample5 { get; set; } = "";
+            public string Sample6 { get; set; } = "";
+        }
+
+        // Playlist definition HERE
+        public List<PlayListEntry> pList = new List<PlayListEntry>
+        {
+            new PlayListEntry { SongName = "Intro", AnimName = "We Are" },
+            new PlayListEntry { SongName = "Speak to me", AnimName = "Dark Side", Sample1 = "SpeakToMe_intro.mp3" },
+            new PlayListEntry { SongName = "Breathe", AnimName = "Dark Side" },
+            new PlayListEntry { SongName = "Time", AnimName = "Landing Strip", Sample1 = "Time_intro.mp3" },
+            new PlayListEntry { SongName = "The Great Gig In The Sky", AnimName = "Dark Side", Sample1 = "TheGreatGigInTheSky_voice.mp3" },
+            new PlayListEntry { SongName = "Money", AnimName = "Axis Triangle", Sample1 = "Money_intro.mp3", Sample2 = "Money_outro.mp3" },
+            new PlayListEntry { SongName = "Us & Them", AnimName = "Wool Strings" },
+            new PlayListEntry { SongName = "Any Color You Like", AnimName = "Dark Side" },
+            new PlayListEntry { SongName = "Brain Damage", AnimName = "Procedural Moon", Sample1 = "BrainDamage_risata.mp3" },
+            new PlayListEntry { SongName = "Eclipse", AnimName = "Procedural Moon", Sample1 = "Eclipse_outro.mp3" },
+            new PlayListEntry { SongName = "Intro", AnimName = "We Are" },
+
+            new PlayListEntry { SongName = "Cymbaline", AnimName = "Standard" },
+            new PlayListEntry { SongName = "Shine On You Crazy Diamond", AnimName = "Astra Domine" },
+            new PlayListEntry { SongName = "Dogs", AnimName = "Animals", Sample1 = "Dogs_1.mp3", Sample2 = "Dogs_2.mp3" },
+            new PlayListEntry { SongName = "Wish You Were Here", AnimName = "Electric Strings", Sample1 = "WishYouWereHere_intro.mp3", Sample2 = "WishYouWereHere_outro.mp3" },
+            new PlayListEntry { SongName = "Comfortably Numb", AnimName = "Moving Dots", Sample1 = "ComfortablyNumb_intro.mp3", Sample2 = "ComfortablyNumb_aaaaa.mp3" },
+            new PlayListEntry { SongName = "Another Brick In The Wall", AnimName = "The Wall" },
+            new PlayListEntry { SongName = "Intro", AnimName = "We Are" }
+        };
+
+
+        public void ResetOuputs ()
 		{
             StandardAnim.Value = false;
             DarkSideAnim.Value = false;
@@ -95,8 +96,9 @@ namespace T3.Operators.Types.Id_813d7cdd_cf59_4c2d_a4ac_307a4c5c3b20
 			PlayStop.Value = false;
 		}
 
+
 		// read playlist element and set the outputs accordingly
-		public SetAnim (PlayListEntry p)
+		public void SetAnim (PlayListEntry p)
 		{
 			// reset "pad pressed" outputs
             ResetOuputs ();
@@ -135,7 +137,8 @@ namespace T3.Operators.Types.Id_813d7cdd_cf59_4c2d_a4ac_307a4c5c3b20
             DedicatedAnimNumber.UpdateAction = Update;
             Sample.UpdateAction = Update;
 			PlayStop.UpdateAction = Update;
-			Song.UpdateAction = Update;        }
+			Song.UpdateAction = Update;
+        }
 
         private void Update(EvaluationContext context)
         {
@@ -143,28 +146,34 @@ namespace T3.Operators.Types.Id_813d7cdd_cf59_4c2d_a4ac_307a4c5c3b20
 			// check previous / next pads: if present, set position in the playlist, and check the boundaries
 			// anti-bouncing mechanism is implemented
 			var preventry = PrevEntry.GetValue(context);
-			var nextentry = nextEntry.GetValue(context);
-			if (preventry) {				// previous pad pressed
-				if (!_formerstateprev) {	// make sure it was not pressed before, and set the outputs
+			var nextentry = NextEntry.GetValue(context);
+			if (preventry)
+            {				// previous pad pressed
+				if (!_formerstateprev)
+                {	        // make sure it was not pressed before, and set the outputs
 					_formerstateprev = true;
-					if (_indexInPlayList > 0) _indexInPlayList -=1
+                    if (_indexInPlayList > 0) _indexInPlayList -= 1;
 					SetAnim (pList [_indexInPlayList]);
 				}
 			}
-			else {
+			else
+            {
 				_formerstateprev = false;
 				// reset "pad pressed" outputs
 				ResetOuputs ();
 			}
 
-			if (nextentry) {				// next pad pressed
-				if (!_formerstatenext) {	// make sure it was not pressed before, and set the outputs
+			if (nextentry)
+            {				// next pad pressed
+				if (!_formerstatenext)
+                {	// make sure it was not pressed before, and set the outputs
 					_formerstatenext = true;
-					if (_indexInPlayList + 1 < pList.Count) _indexInPlayList +=1
+                    if (_indexInPlayList + 1 < pList.Count) _indexInPlayList += 1;
 					SetAnim (pList [_indexInPlayList]);				
 				}
 			}
-			else {
+			else
+            {
 				_formerstatenext = false;
 				// reset "pad pressed" outputs
 				ResetOuputs ();
@@ -177,25 +186,30 @@ namespace T3.Operators.Types.Id_813d7cdd_cf59_4c2d_a4ac_307a4c5c3b20
 
 			foreach (var pad in SamplePads.GetCollectedTypedInputs())
             {
-                if (pad.GetValue(context) == true) {
+                if (pad.GetValue(context) == true)
+                {
 					sampleFound = true;
 					break;		// go out the loop
 				}
-				i = i + 1;
+				i++;
             }
 			
 			// in case sample pad is pressed, set the right outputs
-			if ((sampleFound) && (i<=6)) {		// we manage 6 sample pads maximum
-				if (!_formerstateplaystop) {	// this is the first time we press the pad
+			if ((sampleFound) && (i<=6))
+            {		// we manage 6 sample pads maximum
+				if (!_formerstateplaystop)
+                {	// this is the first time we press the pad
 					_formerstateplaystop = true;
-					Sample.Value = SetSound (pList, i);
+					Sample.Value = SetSound (pList[_indexInPlayList], i);
 					PlayStop.Value = true;
 				}
-				else {							// pad is still pressed, but this has been taken into account already
+				else
+                {							// pad is still pressed, but this has been taken into account already
 					PlayStop.Value = false;
 				}
 			}
-			else {								// no sample pad pressed, we do nothing
+			else
+            {								// no sample pad pressed, we do nothing
 				_formerstateplaystop = false;
 				PlayStop.Value = false;
 			}
@@ -210,11 +224,11 @@ namespace T3.Operators.Types.Id_813d7cdd_cf59_4c2d_a4ac_307a4c5c3b20
         private bool _formerstateprev = false;
         private bool _formerstatenext = false;
         private bool _formerstateplaystop = false;
-		private List<PlayListEntry> pList = new List<PlayListEntry>;
+//		private List<PlayListEntry> pList = new List<PlayListEntry>;
 
 		
         [Input(Guid = "76cc3cfb-63c3-4b44-9568-b8b8a62aebbf")]
-        public readonly InputSlot<bool> SamplePads = new();
+        public readonly MultiInputSlot<bool> SamplePads = new();
 
         [Input(Guid = "0e555710-9445-487e-9357-d1cb3b449429")]
         public readonly InputSlot<bool> PrevEntry = new();
