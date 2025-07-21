@@ -2,28 +2,28 @@
   "Name": "PlayAudioFile",
   "Id": "67d695fe-bdfd-48ba-b091-3a427d687a41",
   "Namespace": "user.denis",
-    "Inputs": [
-        {
-            "Id": "52e826b9-9ff5-4858-9420-365358b5b028" /*Path*/,
-            "DefaultValue": "Resources\\common\\test-footage\\test-720p.mp4"
-        },
-        {
-            "Id": "fb38a142-0341-4509-809a-5a6e7332071f" /*Volume*/,
-            "DefaultValue": 1.0
-        },
-        {
-            "Id": "44d67c1c-b7ff-49bf-be04-d4ef8cb06677" /*TriggerMode*/,
-            "DefaultValue": 0
-        },
-        {
-            "Id": "80182a35-2762-46f2-b683-36a0e696037c" /*Enabled*/,
-            "DefaultValue": false
-        },
-        {
-            "Id": "23463284-526f-4e1b-a851-1e6893a58611" /*IsLooping*/,
-            "DefaultValue": false
-        }
-    ],
+  "Inputs": [
+    {
+      "Id": "52e826b9-9ff5-4858-9420-365358b5b028"/*Path*/,
+      "DefaultValue": "Resources\\common\\test-footage\\test-720p.mp4"
+    },
+    {
+      "Id": "fb38a142-0341-4509-809a-5a6e7332071f"/*Volume*/,
+      "DefaultValue": 1.0
+    },
+    {
+      "Id": "44d67c1c-b7ff-49bf-be04-d4ef8cb06677"/*TriggerMode*/,
+      "DefaultValue": 0
+    },
+    {
+      "Id": "80182a35-2762-46f2-b683-36a0e696037c"/*Enabled*/,
+      "DefaultValue": false
+    },
+    {
+      "Id": "23463284-526f-4e1b-a851-1e6893a58611"/*IsLooping*/,
+      "DefaultValue": false
+    }
+  ],
   "Children": [],
   "Connections": []
 }
