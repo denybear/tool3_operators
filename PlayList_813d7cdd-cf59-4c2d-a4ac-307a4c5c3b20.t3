@@ -1,22 +1,21 @@
 {
-    "Name": "PlayList",
-    "Id": "813d7cdd-cf59-4c2d-a4ac-307a4c5c3b20",
-    "Namespace": "user.denis",
-    "Inputs": [
-
-        {
-            "Id": "0e555710-9445-487e-9357-d1cb3b449429" /*PrevEntry*/,
-            "DefaultValue": false
-        },
-        {
-            "Id": "f5cdfdac-0fe9-4eb8-a27e-9284f7ba7316" /*NextEntry*/,
-            "DefaultValue": false
-        },
-        {
-            "Id": "76cc3cfb-63c3-4b44-9568-b8b8a62aebbf" /*SamplePads*/,
-            "DefaultValue": false
-        }
-    ],
-    "Children": [],
-    "Connections": []
+  "Name": "PlayList",
+  "Id": "813d7cdd-cf59-4c2d-a4ac-307a4c5c3b20",
+  "Namespace": "user.denis",
+  "Inputs": [
+    {
+      "Id": "76cc3cfb-63c3-4b44-9568-b8b8a62aebbf"/*SamplePads*/,
+      "DefaultValue": false
+    },
+    {
+      "Id": "0e555710-9445-487e-9357-d1cb3b449429"/*PrevEntry*/,
+      "DefaultValue": false
+    },
+    {
+      "Id": "f5cdfdac-0fe9-4eb8-a27e-9284f7ba7316"/*NextEntry*/,
+      "DefaultValue": false
+    }
+  ],
+  "Children": [],
+  "Connections": []
 }

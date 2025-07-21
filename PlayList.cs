@@ -1,4 +1,5 @@
 using T3.Core.Operator;
+using T3.Core.Utils;
 using T3.Core.Operator.Attributes;
 using T3.Core.Operator.Slots;
 
@@ -32,28 +33,31 @@ namespace T3.Operators.Types.Id_813d7cdd_cf59_4c2d_a4ac_307a4c5c3b20
         public class PlayListEntry
         {
             private int animNumber = 0;
+			private string animName = "Standard";
             public string SongName { get; set; } = "";
-            public string AnimName { get; set; } = "Standard";
-            public int AnimNumber
+            public string AnimName
             {
-                get
-                {
-                    return animNumber;
-                }
+                get => animName;
                 set
                 {
-                    if (AnimName == "We Are") animNumber = 0;
-                    if (AnimName == "Echoes") animNumber = 1;
-                    if (AnimName == "Procedural Moon") animNumber = 2;
-                    if (AnimName == "Astra Domine") animNumber = 3;
-                    if (AnimName == "Landing Strip") animNumber = 4;
-                    if (AnimName == "Axis Triangle") animNumber = 5;
-                    if (AnimName == "Moving Dots") animNumber = 6;
-                    if (AnimName == "Wool Strings") animNumber = 7;
-                    if (AnimName == "Electric Strings") animNumber = 8;
+					animName = value;
+                    if (animName == "We Are") animNumber = 0;
+                    if (animName == "Echoes") animNumber = 1;
+                    if (animName == "Procedural Moon") animNumber = 2;
+                    if (animName == "Astra Domine") animNumber = 3;
+                    if (animName == "Landing Strip") animNumber = 4;
+                    if (animName == "Axis Triangle") animNumber = 5;
+                    if (animName == "Moving Dots") animNumber = 6;
+                    if (animName == "Wool Strings") animNumber = 7;
+                    if (animName == "Electric Strings") animNumber = 8;
                 }
             }
-            public string Sample1 { get; set; } = "";
+            public int AnimNumber
+			{
+				get => animNumber;
+			}
+ 
+			public string Sample1 { get; set; } = "";
             public string Sample2 { get; set; } = "";
             public string Sample3 { get; set; } = "";
             public string Sample4 { get; set; } = "";
@@ -105,9 +109,9 @@ namespace T3.Operators.Types.Id_813d7cdd_cf59_4c2d_a4ac_307a4c5c3b20
 
 			// display SongName on the console
 			if (p.AnimName == "Standard") StandardAnim.Value = true;
-			if (p.AnimName == "Dark Side") DarkSideAnim.Value = true;
-			if (p.AnimName == "Animals") AnimalsAnim.Value = true;
-			if (p.AnimName == "The Wall") TheWallAnim.Value = true;
+			else if (p.AnimName == "Dark Side") DarkSideAnim.Value = true;
+			else if (p.AnimName == "Animals") AnimalsAnim.Value = true;
+			else if (p.AnimName == "The Wall") TheWallAnim.Value = true;
 			else	// dedicated anims
 			{
 				DedicatedAnim.Value = true;
@@ -148,37 +152,29 @@ namespace T3.Operators.Types.Id_813d7cdd_cf59_4c2d_a4ac_307a4c5c3b20
 			var preventry = PrevEntry.GetValue(context);
 			var nextentry = NextEntry.GetValue(context);
 			if (preventry)
-            {				// previous pad pressed
-				if (!_formerstateprev)
-                {	        // make sure it was not pressed before, and set the outputs
+            {								// previous pad pressed
+				if (!_formerstateprev)		// limit to a single press only
+                {
 					_formerstateprev = true;
-                    if (_indexInPlayList > 0) _indexInPlayList -= 1;
+					if (_indexInPlayList > 0) _indexInPlayList -= 1;
 					SetAnim (pList [_indexInPlayList]);
 				}
 			}
-			else
-            {
-				_formerstateprev = false;
-				// reset "pad pressed" outputs
-				ResetOuputs ();
-			}
-
-			if (nextentry)
-            {				// next pad pressed
-				if (!_formerstatenext)
-                {	// make sure it was not pressed before, and set the outputs
+			else if (nextentry)
+            {								// next pad pressed
+				if (!_formerstatenext)		// limit to a single press only
+                {
 					_formerstatenext = true;
-                    if (_indexInPlayList + 1 < pList.Count) _indexInPlayList += 1;
+					if (_indexInPlayList + 1 < pList.Count) _indexInPlayList += 1;
 					SetAnim (pList [_indexInPlayList]);				
 				}
 			}
 			else
-            {
+			{
+				_formerstateprev = false;
 				_formerstatenext = false;
-				// reset "pad pressed" outputs
 				ResetOuputs ();
 			}
-
 
 			// check input from the "sample" pads
             int i = 1;
@@ -197,23 +193,23 @@ namespace T3.Operators.Types.Id_813d7cdd_cf59_4c2d_a4ac_307a4c5c3b20
 			// in case sample pad is pressed, set the right outputs
 			if ((sampleFound) && (i<=6))
             {		// we manage 6 sample pads maximum
-				if (!_formerstateplaystop)
-                {	// this is the first time we press the pad
-					_formerstateplaystop = true;
-					Sample.Value = SetSound (pList[_indexInPlayList], i);
-					PlayStop.Value = true;
-				}
-				else
-                {							// pad is still pressed, but this has been taken into account already
-					PlayStop.Value = false;
-				}
-			}
-			else
-            {								// no sample pad pressed, we do nothing
-				_formerstateplaystop = false;
-				PlayStop.Value = false;
+				_formerstateplaystop = 1;
+				Sample.Value = SetSound (pList[_indexInPlayList], i);
 			}
 			
+			// for this trigger, we must make sure it is TRUE for a period of time, otherwise detection is not proper; let's assume TRUE for 5 loops
+			if ((_formerstateplaystop > 0) && (_formerstateplaystop < 5))
+			{	// this is the first time we press the pad
+				_formerstateplaystop += 1;
+				Sample.Value = SetSound (pList[_indexInPlayList], i);
+				PlayStop.Value = true;
+			}
+			else
+			{
+				_formerstateplaystop = 0;
+				PlayStop.Value = false;
+			}
+		
 			
 			// return song name
 			Song.Value = pList [_indexInPlayList].SongName;
@@ -223,9 +219,7 @@ namespace T3.Operators.Types.Id_813d7cdd_cf59_4c2d_a4ac_307a4c5c3b20
         private int _indexInPlayList = 0;
         private bool _formerstateprev = false;
         private bool _formerstatenext = false;
-        private bool _formerstateplaystop = false;
-//		private List<PlayListEntry> pList = new List<PlayListEntry>;
-
+        private int _formerstateplaystop = 0;
 		
         [Input(Guid = "76cc3cfb-63c3-4b44-9568-b8b8a62aebbf")]
         public readonly MultiInputSlot<bool> SamplePads = new();

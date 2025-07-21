@@ -3,25 +3,27 @@
   "Description": "implements playlist mode, where 6 pads can be used top play samples of current song, and previous-next pads allow to navigate through songs of the playlist (defined in the c# program).",
   "InputUis": [
     {
+      "InputId": "76cc3cfb-63c3-4b44-9568-b8b8a62aebbf"/*SamplePads*/,
+      "Relevancy": "Required",
+      "Position": {
+        "X": -200.0,
+        "Y": 100.0
+      }
+    },
+    {
       "InputId": "0e555710-9445-487e-9357-d1cb3b449429"/*PrevEntry*/,
       "Relevancy": "Required",
       "Position": {
         "X": -200.0,
         "Y": 0.0
-      },
+      }
+    },
     {
       "InputId": "f5cdfdac-0fe9-4eb8-a27e-9284f7ba7316"/*NextEntry*/,
       "Relevancy": "Required",
       "Position": {
         "X": -200.0,
         "Y": 50.0
-      },
-    {
-      "InputId": "76cc3cfb-63c3-4b44-9568-b8b8a62aebbf"/*SamplePads*/,
-      "Relevancy": "Required",
-      "Position": {
-        "X": -200.0,
-        "Y": 100.0
       }
     }
   ],
