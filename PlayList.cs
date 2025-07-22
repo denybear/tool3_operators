@@ -105,7 +105,7 @@ namespace T3.Operators.Types.Id_813d7cdd_cf59_4c2d_a4ac_307a4c5c3b20
 		public void SetAnim (PlayListEntry p)
 		{
 			// reset "pad pressed" outputs
-            ResetOuputs ();
+//            ResetOuputs ();
 
 			// display SongName on the console
 			if (p.AnimName == "Standard") StandardAnim.Value = true;
@@ -193,20 +193,23 @@ namespace T3.Operators.Types.Id_813d7cdd_cf59_4c2d_a4ac_307a4c5c3b20
 			// in case sample pad is pressed, set the right outputs
 			if ((sampleFound) && (i<=6))
             {		// we manage 6 sample pads maximum
-				_formerstateplaystop = 1;
-				Sample.Value = SetSound (pList[_indexInPlayList], i);
-			}
-			
-			// for this trigger, we must make sure it is TRUE for a period of time, otherwise detection is not proper; let's assume TRUE for 5 loops
-			if ((_formerstateplaystop > 0) && (_formerstateplaystop < 5))
-			{	// this is the first time we press the pad
-				_formerstateplaystop += 1;
-				Sample.Value = SetSound (pList[_indexInPlayList], i);
-				PlayStop.Value = true;
+//				if (!_formerstateplaystop)		// limit to a single press only
+                {
+					_formerstateplaystop = true;
+					if (SetSound (pList[_indexInPlayList], i) == "")
+					{
+						PlayStop.Value = false;
+						Sample.Value = "empty sample slot";		// relevant message instead of ""
+					}
+					else {
+						PlayStop.Value = true;		// activate play only is there is a valid sample
+						Sample.Value = SetSound (pList[_indexInPlayList], i);
+					}
+				}
 			}
 			else
 			{
-				_formerstateplaystop = 0;
+				_formerstateplaystop = false;
 				PlayStop.Value = false;
 			}
 		
@@ -219,7 +222,7 @@ namespace T3.Operators.Types.Id_813d7cdd_cf59_4c2d_a4ac_307a4c5c3b20
         private int _indexInPlayList = 0;
         private bool _formerstateprev = false;
         private bool _formerstatenext = false;
-        private int _formerstateplaystop = 0;
+        private bool _formerstateplaystop = false;
 		
         [Input(Guid = "76cc3cfb-63c3-4b44-9568-b8b8a62aebbf")]
         public readonly MultiInputSlot<bool> SamplePads = new();
